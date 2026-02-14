@@ -230,7 +230,7 @@ Write with strong POV --> Add supporting evidence --> Craft memorable conclusion
 For writing projects, use a dedicated folder:
 
 ```
-~/writing/[article-name]/
+~/Claude/writing/[article-name]/
   outline.md        # Structured outline with research gaps
   research.md       # Collected research, sources, and citations
   draft.md          # Working draft (overwrite in place)
