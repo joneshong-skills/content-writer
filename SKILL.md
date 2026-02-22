@@ -55,7 +55,7 @@ Task(subagent_type: reviewer, prompt: "Review this draft for: accuracy, tone con
 - Medium (1000-2500 words): delegate research to `researcher`, write in main
 - Long (2500+ words): full pipeline — `researcher` → `writer` per section → `reviewer`
 
-> **Execution routing**: Research/writing/review → delegate to respective agents. Batch local file processing (3+ source files to read and summarize) → **main context** uses `sandbox_execute` directly (files must be in `~/Claude/`). External URL fetching → delegate to `researcher` agent (sandbox network is localhost only).
+> **Execution routing**: Research/writing/review → delegate to respective agents. Batch local file processing (3+ source files to read and summarize) → **main context** uses `sandbox_execute` directly. External URL fetching → also supported directly in `sandbox_execute` (external HTTP now enabled); delegate to `researcher` agent when WebSearch is needed.
 
 ## Phase 1: Understand
 
