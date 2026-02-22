@@ -5,8 +5,8 @@ description: >-
   "create content with research", "write with citations", "撰寫文章", "寫部落格",
   "研究型寫作", "帶引用的內容", mentions content creation with research, or discusses
   writing articles, newsletters, case studies, or thought leadership pieces with sources.
-version: 0.1.0
-tools: Read, Write, Edit, Bash, Glob, Grep, WebSearch
+version: 0.2.0
+tools: Read, Write, Edit, Bash, Glob, Grep, WebSearch, sandbox_execute
 argument-hint: "<topic or content type>"
 ---
 
@@ -27,6 +27,33 @@ Understand --> Outline --> Research --> Draft --> Feedback --> Polish
 
 Each phase can be entered directly. Users writing a quick newsletter skip differently
 than someone writing a 3000-word thought leadership piece.
+
+## Agent Delegation
+
+This skill uses a **multi-agent pipeline** to separate concerns:
+
+### Research phase → `researcher` agent
+```
+Task(subagent_type: researcher, prompt: "Find data/sources on [topic]. Return: key findings, URLs, quotes.")
+```
+Isolates web search context from writing context — prevents search results from bloating the draft.
+
+### Draft phase → `writer` agent (optional, for long-form)
+For articles > 2000 words, delegate section drafting to the `writer` agent:
+```
+Task(subagent_type: writer, prompt: "Draft section 2 based on this outline and research: [context]")
+```
+Each section gets its own context window — avoids the full article accumulating in one context.
+
+### Review phase → `reviewer` agent
+```
+Task(subagent_type: reviewer, prompt: "Review this draft for: accuracy, tone consistency, citation completeness")
+```
+
+### When to delegate vs. run in main context
+- Short content (< 1000 words): main context only, no delegation needed
+- Medium (1000-2500 words): delegate research to `researcher`, write in main
+- Long (2500+ words): full pipeline — `researcher` → `writer` per section → `reviewer`
 
 ## Phase 1: Understand
 
@@ -65,6 +92,8 @@ Mark `[RESEARCH NEEDED: ...]` inline so gaps are visible in context.
 Iterate on structure before moving to drafting.
 
 ## Phase 3: Research
+
+**Sandbox acceleration**: When the user provides multiple source files (notes, prior articles, research docs), use `sandbox_execute` to batch-read all files, extract key quotes and citations, and return a structured research summary — avoiding loading all raw source text into context.
 
 Use the **smart-search** skill for web research:
 
@@ -249,6 +278,15 @@ For final output, use **docx**, **pdf**, or **pptx** skills to export:
 - **doc-coauthoring**: Use that skill instead for structured docs (specs, proposals, RFCs).
   Use this skill for audience-facing content with research and citations.
 - **docx / pdf / pptx**: Use for final file output after content is polished.
+
+## Sandbox Optimization
+
+Phase 1 (Understand) and Phase 3 (Research) benefit from sandbox execution:
+
+- **Phase 1**: When the user provides writing samples, batch-read and analyze them in sandbox — extract tone markers, sentence length stats, vocabulary level — returning only a structured voice profile (~100 tokens) instead of full sample text.
+- **Phase 3**: Batch-read multiple source files, extract key facts/quotes with page references, return structured research notes. Prevents raw source text from bloating context.
+
+Principle: **Source ingestion → sandbox; creative writing → LLM.**
 
 ## Continuous Improvement
 
