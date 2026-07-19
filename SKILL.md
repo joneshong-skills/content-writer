@@ -8,9 +8,15 @@ argument-hint: "<topic or content type>"
 
 # Content Writer
 
+## Output Format
+
+Deliver final content as:
+- Markdown file (`.md`) with consistent formatting
+- Bibliography or reference list if using numbered or footnote citations
+
 ## Phase 1: Understand
 
-Resolve these REQUIRED points before proceeding. Points already stated in — or reasonably inferable from — the initial request count as resolved; do not re-ask them. Ask only about genuinely unresolved points, batched into ONE message, each with a best-guess default the user can accept or override:
+Resolve these 6 REQUIRED points. If any is stated or inferable from the request, mark it resolved. Ask only unresolved points in a single message, each with a best-guess default the user can accept or override:
 
 1. **Topic & thesis** — Main subject and central argument
 2. **Audience** — Reader profile and knowledge level
@@ -19,15 +25,11 @@ Resolve these REQUIRED points before proceeding. Points already stated in — or
 5. **Length** — Short (500–800), medium (1000–2000), or long (2500+)
 6. **Style** — Formal, conversational, technical, or storytelling
 
-**Optional:** Writing sample to match voice
+**Optional:** Request writing sample to match voice.
 
-**Stop condition:** All 6 REQUIRED points resolved (stated, inferred, or defaulted after one batched ask). When the user requests output only, resolve every point by inference or default, list them under "Assumptions:", and proceed directly — never substitute questions for the deliverable.
-
-## Output Format
-
-Deliver final content as:
-- Markdown file (`.md`) with consistent formatting
-- Bibliography or reference list if using numbered or footnote citations
+**Stop condition:**
+- **If user requests output only:** Infer all 6 points (or apply defaults), list them under "Assumptions:", and proceed directly to Phase 2 — never substitute questions for the deliverable.
+- **Otherwise:** All 6 REQUIRED points resolved. Proceed to Phase 2.
 
 ## Phase 2: Outline
 
@@ -46,11 +48,11 @@ Produce a markdown outline with:
 
 For each research gap:
 1. Run `/smart-search [specific research question]`
-2. Record finding in this format:
-   - **Fact:** [statement]
-   - **Source:** Author, "Title", Publication (Year)
-   - **Quote:** "[direct quote]" — [speaker/context]
-   - **Section:** [outline section name]
+2. Record each finding as:
+   **Fact:** [statement]
+   **Source:** Author, "Title", Publication (Year)
+   **Quote:** "[direct quote]" — [speaker/context]
+   **Section:** [outline section name]
 3. Mark gaps as either "FILLED" or "NO RELIABLE SOURCE FOUND"
 
 **Stop condition:** Every gap marked FILLED or NO SOURCE FOUND. Unfilled gaps block Phase 4.
@@ -75,7 +77,7 @@ Apply one feedback pass per section. Address:
 - **Style** — Match tone to writing sample
 - **Line edits** — Most impactful phrasing improvements
 
-**Structural changes** (new sections, outline rewrites, removed content) return to Phase 2, not Phase 5.
+**If feedback requires structural changes** (new sections, outline rewrites, removed content): Return to Phase 2, not Phase 5.
 
 **Stop condition:** Section passes review and user explicitly approves before Phase 6.
 
@@ -93,7 +95,7 @@ Verify checklist:
 - [ ] Grammar correct
 - [ ] Title is specific and engaging
 
-**If any item fails:** Return to its originating phase:
+**If any item fails:** Use this routing table:
 - **Unsourced claims** → Phase 3 (research)
 - **Weak draft sections** → Phase 4 (redraft)
 - **Structure problems** → Phase 2 (outline)
