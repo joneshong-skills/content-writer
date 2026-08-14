@@ -11,12 +11,12 @@ argument-hint: "<topic or content type>"
 ## Output Format
 
 Deliver final content as:
-- Markdown file (`.md`) with consistent formatting
-- Bibliography or reference list if using numbered or footnote citations
+- Markdown file (`.md`)
+- Bibliography or reference list if using citations
 
 ## Phase 1: Understand
 
-Resolve these 6 REQUIRED points. If any is stated or inferable from the request, mark it resolved. Ask only unresolved points in a single message, each with a best-guess default the user can accept or override:
+Resolve these 6 REQUIRED points:
 
 1. **Topic & thesis** — Main subject and central argument
 2. **Audience** — Reader profile and knowledge level
@@ -25,11 +25,24 @@ Resolve these 6 REQUIRED points. If any is stated or inferable from the request,
 5. **Length** — Short (500–800), medium (1000–2000), or long (2500+)
 6. **Style** — Formal, conversational, technical, or storytelling
 
-**Optional:** Request writing sample to match voice.
+**Resolution path:**
+- Stated in request → mark resolved
+- Inferable from context → mark resolved and proceed with that inference
+- Missing → ask the user with a best-guess default
 
-**Stop condition:**
-- **If user requests output only:** Infer all 6 points (or apply defaults), list them under "Assumptions:", and proceed directly to Phase 2 — never substitute questions for the deliverable.
-- **Otherwise:** All 6 REQUIRED points resolved. Proceed to Phase 2.
+**Request for writing sample (optional):** If needing tone match, ask user for an existing piece.
+
+**Stop condition — two paths:**
+
+**Path A (user asks for output only, no discussion):**
+- Infer all 6 points using sensible defaults (general audience, blog post, 1500 words, conversational style, etc.)
+- List all 6 under "Assumptions:" at the start
+- Proceed immediately to Phase 2
+
+**Path B (user is iterating or has questions):**
+- Ask only the unresolved points in one message
+- Wait for responses
+- Proceed to Phase 2 only when all 6 are confirmed
 
 ## Phase 2: Outline
 
@@ -40,66 +53,70 @@ Produce a markdown outline with:
 - 2–4 body sections, each labeled `[RESEARCH NEEDED: <specific gap>]`
 - Counter-arguments or alternative views (if applicable)
 - Conclusion (summary and call to action)
-- Checklist of all `[RESEARCH NEEDED: ...]` gaps
+- Checklist section: list every `[RESEARCH NEEDED: ...]` gap exactly as written
 
-**Stop condition:** All gaps indexed and listed. Do not proceed to Phase 3 if gaps are vague or missing.
+**Stop condition:** All gaps indexed and clearly listed. Do not proceed if any gap is vague or missing from the checklist.
 
 ## Phase 3: Research
 
-For each research gap:
-1. Run `/smart-search [specific research question]`
-2. Record each finding as:
-   **Fact:** [statement]
-   **Source:** Author, "Title", Publication (Year)
-   **Quote:** "[direct quote]" — [speaker/context]
-   **Section:** [outline section name]
-3. Mark gaps as either "FILLED" or "NO RELIABLE SOURCE FOUND"
+For each research gap listed in Phase 2:
 
-**Stop condition:** Every gap marked FILLED or NO SOURCE FOUND. Unfilled gaps block Phase 4.
+1. Run `/smart-search [specific research question]`
+2. Record findings as:
+   - **Fact:** [statement]
+   - **Source:** Author, "Title", Publication (Year)
+   - **Quote:** "[direct quote]" — [speaker/context]
+   - **Section:** [outline section name where this belongs]
+3. Mark each gap as either "FILLED" (reliable source found) or "NO SOURCE FOUND" (unable to verify)
+
+**Reliable source criteria:** Published article, peer-reviewed paper, authoritative expert, official documentation. Blog posts and social media only if no better source exists; note the limitation.
+
+**Stop condition:** Every gap marked FILLED or NO SOURCE FOUND. Do not proceed to Phase 4 if any gap remains open.
 
 ## Phase 4: Draft
 
-1. **Select citation format** — Inline, numbered, or footnote. Lock this choice for the entire piece.
+1. **Lock citation format** at the start — inline, numbered, or footnote. Use consistently throughout.
 2. **Draft order:** Hook → Introduction → Section 1 → Section 2 → Conclusion
-3. **Per section:**
-   - Write from outline and research notes with citations placed at claim points
-   - Present for user review
-   - Revise based on feedback before moving to next section
+3. **Per-section workflow:**
+   - Write the section using outline and research notes
+   - Place citations at claim points (where you make a factual assertion)
+   - Show the draft to the user and wait for explicit approval before moving to the next section
+   - Do not advance to Phase 5 until user confirms "approved" or similar
 
-**Stop condition:** All sections drafted and user-approved. No section may skip to Phase 5 without approval.
+**Stop condition:** All sections drafted, reviewed, and user-approved one by one.
 
 ## Phase 5: Section Feedback
 
 Apply one feedback pass per section. Address:
 - **Clarity** — Rephrase unclear statements; add concrete examples
 - **Flow** — Improve transitions between ideas
-- **Evidence** — Add citations where missing; remove if >1 per paragraph
-- **Style** — Match tone to writing sample
-- **Line edits** — Most impactful phrasing improvements
+- **Evidence** — Add citations where missing; reduce to max 1 per paragraph
+- **Style** — Match tone to writing sample (if provided)
+- **Line edits** — Strongest phrasing improvements only
 
-**If feedback requires structural changes** (new sections, outline rewrites, removed content): Return to Phase 2, not Phase 5.
+**Exception:** If feedback requires structural changes (new sections, removed content, major outline rewrites), return to Phase 2 instead.
 
-**Stop condition:** Section passes review and user explicitly approves before Phase 6.
+**Stop condition:** Section revised and user explicitly approves before Phase 6.
 
 ## Phase 6: Polish & Final Review
 
-Verify checklist:
-- [ ] All claims have citations
-- [ ] Citations formatted consistently
-- [ ] Hook is compelling for target audience
-- [ ] Transitions smooth between sections
+Verify this checklist:
+- [ ] All factual claims have citations
+- [ ] All citations formatted consistently
+- [ ] Hook engages target audience
+- [ ] Transitions flow smoothly between sections
 - [ ] Conclusion ties back to opening
 - [ ] Tone consistent throughout
-- [ ] No redundant or filler content
-- [ ] Call to action clear
-- [ ] Grammar correct
+- [ ] No filler or redundant content
+- [ ] Call to action is clear
+- [ ] Grammar and spelling correct
 - [ ] Title is specific and engaging
 
-**If any item fails:** Use this routing table:
-- **Unsourced claims** → Phase 3 (research)
-- **Weak draft sections** → Phase 4 (redraft)
-- **Structure problems** → Phase 2 (outline)
-- **Tone/flow/line issues** → Phase 5 (feedback)
-- **Grammar/formatting** → Phase 5 (line edits)
+**If any item fails, route back to:**
+- Unsourced claims → Phase 3 (research missing sources)
+- Weak draft sections → Phase 4 (redraft that section)
+- Structure problems → Phase 2 (revise outline)
+- Tone, flow, or phrasing issues → Phase 5 (apply feedback)
+- Grammar or formatting issues → Phase 5 (line edits only)
 
-**Stop condition:** All checkboxes pass.
+**Stop condition:** All checkboxes pass and user confirms ready to publish.
